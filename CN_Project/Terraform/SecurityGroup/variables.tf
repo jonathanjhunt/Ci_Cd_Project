@@ -1,7 +1,7 @@
 variable "ingress_ports" {
   type        = list(number)
   description = "List of ingress ports"
-  default     = [22, 80, 443, 3306]
+  default     = [22, 80, 443, 3306, 8080]
 }
 
 variable "name" {
