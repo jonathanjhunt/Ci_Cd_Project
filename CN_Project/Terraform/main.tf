@@ -9,17 +9,23 @@ module "aws_vpc" {
 }
 
 module "aws_webserver_sg" {
-  source = "./SecurityGroups"
+  source = "./SecurityGroup"
   name   = "WebServerSG"
-  vpc_id = aws_vpc.project_vpc.id
+  vpc_id = module.aws_vpc.vpc_id
 }
+# module "RDS" {
+#   source                 = "./RDS"
+#   subnet_id              = module.aws_vpc.project_sn_id
+#   vpc_security_group_ids = [module.aws_webserver_sg.aws_wsg_id]
 
+# }
 module "webserver_node" {
   source                 = "./EC2"
-  subnet_id              = aws_subnet.project_sn.id
-  vpc_security_group_ids = aws_security_group.project_sg.id
+  subnet_id              = module.aws_vpc.project_sn_id
+  vpc_security_group_ids = [module.aws_webserver_sg.aws_wsg_id]
   tags = {
     Name = "WebServer_Node"
   }
   associate_public_ip_address = true
 }
+

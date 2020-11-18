@@ -1,7 +1,7 @@
 resource "aws_security_group" "project_sg" {
   name        = var.name
   description = "Allow SSH connection"
-  vpc_id      = aws_vpc.project_vpc.id
+  vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     iterator = port

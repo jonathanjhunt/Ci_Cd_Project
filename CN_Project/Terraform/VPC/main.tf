@@ -1,7 +1,7 @@
 resource "aws_vpc" "project_vpc" {
-  cidr_block           = var.vpc-cidr-block
-  tags= {
-      Name = "production"
+  cidr_block = var.vpc-cidr-block
+  tags = {
+    Name = "production"
   }
 
 }
@@ -42,3 +42,4 @@ resource "aws_route_table_association" "project_rta" {
   subnet_id      = aws_subnet.project_sn.id
   route_table_id = aws_route_table.project_rt.id
 }
+
