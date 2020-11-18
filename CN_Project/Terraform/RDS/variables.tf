@@ -13,3 +13,6 @@ variable "subnet1_id" {
 variable "subnet2_id" {
   description = "to be replaced"
 }
+variable "vpc_security_group_ids" {
+  description = "SG to be override"
+}
