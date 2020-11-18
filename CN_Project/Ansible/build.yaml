@@ -19,7 +19,7 @@
     - name: Collect Jenkins Initial Password
       become: yes
       fetch:
-        src: /var/lib/jenkins/.jenkins/secrets/initialAdminPassword
+        src: /home/jenkins/.jenkins/secrets/initialAdminPassword
         dest: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/returns
 
     - name: Install pip3

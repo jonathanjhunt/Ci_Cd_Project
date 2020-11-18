@@ -20,8 +20,8 @@ Description=Jenkins Server
 
 [Service]
 User=jenkins
-WorkingDirectory=/var/lib/jenkins
-ExecStart=/usr/bin/java -jar /var/lib/jenkins/jenkins.war
+WorkingDirectory=/home/jenkins
+ExecStart=/usr/bin/java -jar /home/jenkins/jenkins.war
 
 [Install]
 WantedBy=multi-user.target
@@ -30,14 +30,13 @@ sudo systemctl daemon-reload
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 sudo su - jenkins << EOF
-until [ -f /var/lib/jenkins/.jenkins/secrets/initialAdminPassword ]; do
+until [ -f .jenkins/secrets/initialAdminPassword ]; do
     sleep 1
     echo "waiting for initial admin password"
 done
-until [[ -n "\$(cat  /var/lib/jenkins/.jenkins/secrets/initialAdminPassword)" ]]; do
+until [[ -n "\$(cat  .jenkins/secrets/initialAdminPassword)" ]]; do
     sleep 1
     echo "waiting for initial admin password"
 done
-echo "initial admin password: \$(cat /var/lib/jenkins/.jenkins/secrets/initialAdminPassword)"
-
+echo "initial admin password: \$(cat .jenkins/secrets/initialAdminPassword)"
 EOF
