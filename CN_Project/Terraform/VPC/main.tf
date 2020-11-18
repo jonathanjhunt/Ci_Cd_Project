@@ -12,9 +12,15 @@ data "aws_availability_zones" "available" {
 
 resource "aws_subnet" "project_sn" {
   cidr_block        = var.project_sn-cidr-block
-  availability_zone = data.aws_availability_zones.available.names[0]
+  availability_zone = "eu-west-1a"
   vpc_id            = aws_vpc.project_vpc.id
 }
+resource "aws_subnet" "project_sn2" {
+  cidr_block        = var.project_sn2-cidr-block
+  availability_zone = "eu-west-1b"
+  vpc_id            = aws_vpc.project_vpc.id
+}
+
 
 resource "aws_internet_gateway" "project_igw" {
   vpc_id = aws_vpc.project_vpc.id
@@ -42,4 +48,5 @@ resource "aws_route_table_association" "project_rta" {
   subnet_id      = aws_subnet.project_sn.id
   route_table_id = aws_route_table.project_rt.id
 }
+
 

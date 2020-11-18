@@ -13,12 +13,12 @@ module "aws_webserver_sg" {
   name   = "WebServerSG"
   vpc_id = module.aws_vpc.vpc_id
 }
-# module "RDS" {
-#   source                 = "./RDS"
-#   subnet_id              = module.aws_vpc.project_sn_id
-#   vpc_security_group_ids = [module.aws_webserver_sg.aws_wsg_id]
+module "RDS" {
+  source     = "./RDS"
+  subnet1_id = module.aws_vpc.project_sn_id
+  subnet2_id = module.aws_vpc.project_sn2_id
 
-# }
+}
 module "webserver_node" {
   source                 = "./EC2"
   subnet_id              = module.aws_vpc.project_sn_id
