@@ -1,0 +1,46 @@
+---
+
+- name: Jenkins Server Install & Config
+  hosts: jenkins_docker
+  tasks:
+
+    - name: copy install script to targetvm
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/jenkins.sh
+        dest: /opt/jenkins_install.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Install and Run Jenkins
+      shell: sh /opt/jenkins_install.sh
+
+      
+    - name: Collect Jenkins Initial Password
+      become: yes
+      fetch:
+        src: /var/lib/jenkins/.jenkins/secrets/initialAdminPassword
+        dest: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/returns
+
+    - name: Install pip3
+      apt:
+        update_cache: yes
+        name: python3-pip
+      become: yes
+
+    - name: Install python docker sdk
+      shell: |
+        pip3 install docker
+      become: yes
+
+    - name: Install docker
+      apt:
+        name: docker.io
+      become: yes
+
+    - name: Start Docker
+      shell: |
+        systemctl start docker
+        systemctl enable docker
+      become: yes   
+        
