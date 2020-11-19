@@ -4,13 +4,14 @@
   hosts: jenkins_docker
   tasks:
 
-    - name: copy install script to targetvm
+    - name: copy install script to target vm
       become: yes
       template:
         src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/jenkins.sh
         dest: /opt/jenkins_install.sh
         owner: ubuntu
         group: ubuntu
+
 
     - name: Install and Run Jenkins
       shell: sh /opt/jenkins_install.sh
@@ -44,4 +45,13 @@
         systemctl enable docker
       become: yes  
 
-   
+    - name: copy script for dockercompose
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/dockercompose.sh
+        dest: /opt/dockercompose.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: install docker-compose
+      shell: sh /opt/dockercompose.sh
