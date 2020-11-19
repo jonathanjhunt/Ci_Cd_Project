@@ -44,10 +44,4 @@
         systemctl enable docker
       become: yes  
 
-    - name: install docker-compose
-      apt:
-        name: docker-compose
-      shell: |
-        sudo chmod +x /usr/local/bin/docker-compose
-      become: yes  
    
