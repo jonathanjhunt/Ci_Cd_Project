@@ -1,7 +1,7 @@
 ---
 
-- name: Jenkins Server Install & Config
-  hosts: jenkins_docker
+- name: Jenkins Web Host Server Install & Config
+  hosts: jenkins_kubernetes
   tasks:
 
     - name: copy install script to target vm
@@ -55,3 +55,127 @@
 
     - name: install docker-compose
       shell: sh /opt/dockercompose.sh
+
+    - name: copy script for kubernetes
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/k8s.sh
+        dest: /opt/k8s.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: install kubectl
+      shell: sh /opt/k8s.sh
+
+    - name: copy script for my-sql-client-core
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/sql.sh
+        dest: /opt/sql.sh
+        owner: ubuntu
+        group: ubuntu
+
+
+    - name: copying the latest project files for jenkins machine
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/projectfiles.sh
+        dest: /opt/projectfiles.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: copy script for .ssh folder
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/createssh.sh
+        dest: /opt/createssh.sh
+        owner: ubuntu
+        group: ubuntu
+
+
+    - name: copying pem key to jenkins machine
+      become: yes
+      template:
+        src: /etc/.ssh/JonathanQA.pem
+        dest: /home/ubuntu/JonathanQA.pem
+        owner: ubuntu
+        group: ubuntu
+
+    - name: cloning latest project files
+      shell: sh /opt/projectfiles.sh
+
+
+- name: Jenkins Web Host Server Install & Config
+  hosts: docker_testing
+  tasks:
+    - name: copying pem key to jenkins machine
+      become: yes
+      template:
+        src: /etc/.ssh/JonathanQA.pem
+        dest: /home/ubuntu/JonathanQA.pem
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Install pip3
+      apt:
+        update_cache: yes
+        name: python3-pip
+      become: yes
+
+    - name: Install python docker sdk
+      shell: |
+        pip3 install docker
+      become: yes
+
+    - name: Install docker
+      apt:
+        name: docker.io
+      become: yes
+
+    - name: Start Docker
+      shell: |
+        systemctl start docker
+        systemctl enable docker
+      become: yes  
+
+    - name: copy script for dockercompose
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/dockercompose.sh
+        dest: /opt/dockercompose.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: install docker-compose
+      shell: sh /opt/dockercompose.sh
+
+    - name: copy script for kubernetes
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/k8s.sh
+        dest: /opt/k8s.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: install kubectl
+      shell: sh /opt/k8s.sh
+
+    - name: copy script for my-sql-client-core
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/sql.sh
+        dest: /opt/sql.sh
+        owner: ubuntu
+        group: ubuntu
+
+
+    - name: copying the latest project files for jenkins machine
+      become: yes
+      template:
+        src: /home/ubuntu/Ci_Cd_Project/CN_Project/Ansible/Scripts/projectfiles.sh
+        dest: /opt/projectfiles.sh
+        owner: ubuntu
+        group: ubuntu
+
+    - name: cloning latest project files
+      shell: sh /opt/projectfiles.sh
