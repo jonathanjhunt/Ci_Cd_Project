@@ -1,0 +1,1 @@
+sudo apt install mysql-client-core-5.7

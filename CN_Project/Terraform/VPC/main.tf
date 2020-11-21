@@ -11,14 +11,16 @@ data "aws_availability_zones" "available" {
 }
 
 resource "aws_subnet" "project_sn" {
-  cidr_block        = var.project_sn-cidr-block
-  availability_zone = "eu-west-1a"
-  vpc_id            = aws_vpc.project_vpc.id
+  cidr_block              = var.project_sn-cidr-block
+  availability_zone       = "eu-west-1a"
+  vpc_id                  = aws_vpc.project_vpc.id
+  map_public_ip_on_launch = true
 }
 resource "aws_subnet" "project_sn2" {
-  cidr_block        = var.project_sn2-cidr-block
-  availability_zone = "eu-west-1b"
-  vpc_id            = aws_vpc.project_vpc.id
+  cidr_block              = var.project_sn2-cidr-block
+  availability_zone       = "eu-west-1b"
+  vpc_id                  = aws_vpc.project_vpc.id
+  map_public_ip_on_launch = true
 }
 
 

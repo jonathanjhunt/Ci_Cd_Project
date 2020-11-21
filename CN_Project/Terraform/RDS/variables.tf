@@ -1,11 +1,11 @@
 variable "DB_USER" {
   description = "name of user"
-  default     = "JonathanQA"
+  default     = "jonathanqa"
 }
 
 variable "DB_PASSWORD" {
   description = "password for db"
-  default     = "Password1234!"
+  default     = "password1234"
 }
 variable "subnet1_id" {
   description = "to be replaced"

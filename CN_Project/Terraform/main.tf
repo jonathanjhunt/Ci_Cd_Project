@@ -24,7 +24,7 @@ module "webserver_node" {
   subnet_id              = module.aws_vpc.project_sn_id
   vpc_security_group_ids = [module.aws_webserver_sg.aws_wsg_id]
   tags = {
-    Name = "WebServer_Node"
+    "Name" = "WebServer_Node"
   }
   associate_public_ip_address = true
 }
